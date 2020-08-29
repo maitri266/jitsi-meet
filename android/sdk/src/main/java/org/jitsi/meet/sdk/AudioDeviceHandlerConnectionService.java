@@ -168,10 +168,14 @@ class AudioDeviceHandlerConnectionService implements
 
     @Override
     public boolean setMode(int mode) {
+        //@cobrowsing log setMode
+        JitsiMeetLogger.d(TAG+" cobrowsing-setMode: "+mode);
         if (mode != AudioModeModule.DEFAULT) {
             // This shouldn't be needed when using ConnectionService, but some devices have been
             // observed not doing it.
             try {
+                //@cobrowsing log audio mute
+                JitsiMeetLogger.d("cobrowsing-setMode: ",mode+" | microphone unmuted ");
                 audioManager.setMicrophoneMute(false);
             } catch (Throwable tr) {
                 JitsiMeetLogger.w(tr, TAG + " Failed to unmute the microphone");

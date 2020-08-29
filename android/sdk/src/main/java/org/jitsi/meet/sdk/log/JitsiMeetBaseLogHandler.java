@@ -37,7 +37,8 @@ public abstract class JitsiMeetBaseLogHandler extends Timber.Tree {
     protected void log(int priority, @Nullable String tag, @NotNull String msg, @Nullable Throwable t) {
         String errmsg = Log.getStackTraceString(t);
         if (errmsg.isEmpty()) {
-            doLog(priority, getDefaultTag(), msg);
+            doLog(priority,
+                getDefaultTag(), msg);
         } else {
             doLog(priority, getDefaultTag(), MessageFormat.format("{0}\n{1}", msg, errmsg));
         }

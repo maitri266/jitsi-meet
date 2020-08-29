@@ -21,6 +21,9 @@ import com.facebook.react.module.annotations.ReactModule;
 
 import org.jitsi.meet.sdk.log.JitsiMeetLogger;
 
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * The react-native side of Jitsi Meet's {@link ConnectionService}. Exposes
  * the Java Script API.
@@ -190,6 +193,13 @@ class RNConnectionService extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void updateCall(String callUUID, ReadableMap callState) {
+        //@cobrowsing log
+        JitsiMeetLogger.d(TAG+" cobrowsing-updateCall from JS "+callUUID);
+        Iterator<Map.Entry<String, Object>> entryIterator = callState.getEntryIterator();
+        while(entryIterator.hasNext()){
+            //@cobrowsing log
+            JitsiMeetLogger.d(TAG+" cobrowsing-updateCall : callStateMap "+entryIterator.next().getKey()+" | "+entryIterator.next().getValue());
+        }
         ConnectionService.updateCall(callUUID, callState);
     }
 
@@ -209,6 +219,8 @@ class RNConnectionService extends ReactContextBaseJavaModule {
      */
     void onCallAudioStateChange(android.telecom.CallAudioState callAudioState) {
         if (callAudioStateListener != null) {
+            //@cobrowsing log
+            JitsiMeetLogger.d(TAG+" cobrowsing-onCallAudioStateChange : "+callAudioState.toString());
             callAudioStateListener.onCallAudioStateChange(callAudioState);
         }
     }

@@ -79,6 +79,9 @@ public final class ListenerUtils {
             }
 
             // Convert the method name to an event name.
+
+            //@COBROWSING log mapped method names and events
+            JitsiMeetLogger.d("cobrowsing-mapListenerMethods",name+" | "+method.getName());
             name
                 = camelcasePattern.matcher(name.substring(2))
                     .replaceAll("$1_$2")

@@ -244,6 +244,9 @@ class AudioModeModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void setAudioDevice(final String device) {
+        //@cobrowsing log setAudioDevice
+        JitsiMeetLogger.d(TAG+" cobrowsing-setAudioDevice: "+device);
+
         runInAudioThread(new Runnable() {
             @Override
             public void run() {
@@ -255,6 +258,8 @@ class AudioModeModule extends ReactContextBaseJavaModule {
 
                 if (mode != -1) {
                     JitsiMeetLogger.i(TAG + " User selected device set to: " + device);
+                    //@cobrowsing log
+                    JitsiMeetLogger.d(TAG+" cobrowsing-userSelectedDevice ",device);
                     userSelectedDevice = device;
                     updateAudioRoute(mode);
                 }
@@ -271,6 +276,8 @@ class AudioModeModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void setMode(final int mode, final Promise promise) {
+        //@cobrowsing log setMode
+        JitsiMeetLogger.d(TAG+" cobrowsing-setMode: ",mode, promise);
         if (mode != DEFAULT && mode != AUDIO_CALL && mode != VIDEO_CALL) {
             promise.reject("setMode", "Invalid audio mode " + mode);
             return;
@@ -282,6 +289,8 @@ class AudioModeModule extends ReactContextBaseJavaModule {
                 boolean success;
 
                 try {
+                    //@cobrowsing log audio mode
+                    JitsiMeetLogger.d("cobrowsing-setMode",promise+" | mode: "+mode);
                     success = updateAudioRoute(mode);
                 } catch (Throwable e) {
                     success = false;
@@ -305,6 +314,8 @@ class AudioModeModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void setUseConnectionService(final boolean use) {
+        //@cobrowsing log setUseConnectionService
+        JitsiMeetLogger.d(TAG+" cobrowsing-setUseConnectionService: "+use);
         runInAudioThread(new Runnable() {
             @Override
             public void run() {
@@ -323,7 +334,8 @@ class AudioModeModule extends ReactContextBaseJavaModule {
      */
     private boolean updateAudioRoute(int mode) {
         JitsiMeetLogger.i(TAG + " Update audio route for mode: " + mode);
-
+        //@cobrowsing log updateAudioRoute
+        JitsiMeetLogger.d(TAG+" cobrowsing-updateAudioRoute "+mode);
         if (!audioDeviceHandler.setMode(mode)) {
             return false;
         }

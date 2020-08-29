@@ -26,6 +26,7 @@ import com.facebook.react.bridge.ReadableMap;
 import org.jitsi.meet.sdk.log.JitsiMeetLogger;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -198,6 +199,16 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
      */
     @Override
     protected void onExternalAPIEvent(String name, ReadableMap data) {
+        //@COBROWSING log external events
+        HashMap<String, Object> stringObjectHashMap = data.toHashMap();
+        for(Map.Entry<String, Object> k: stringObjectHashMap.entrySet()){
+            JitsiMeetLogger.d("cobrowsing-onExternalAPIEvent",k.getKey()+"|"+k.getValue());
+        }
+        JitsiMeetLogger.d("\nLISTENER_METHODS\n");
+        //@COBROWSING log listener_methods
+        for(Map.Entry<String, Method> k:LISTENER_METHODS.entrySet()){
+            JitsiMeetLogger.d("cobrowsing-onExternalAPIEvent",k.getKey()+"|"+k.getValue().getName());
+        }
         onExternalAPIEvent(LISTENER_METHODS, name, data);
     }
 

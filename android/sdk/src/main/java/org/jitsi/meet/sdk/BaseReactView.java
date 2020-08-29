@@ -28,6 +28,8 @@ import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.ReadableMap;
 import com.rnimmersive.RNImmersiveModule;
 
+import org.jitsi.meet.sdk.log.JitsiMeetLogger;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -187,6 +189,12 @@ public abstract class BaseReactView<ListenerT>
         ListenerT listener = getListener();
 
         if (listener != null) {
+            //@COBROWSING log the event to be handled
+            JitsiMeetLogger.d("cobrowsing-onExternalAPIEvent","onExternalAPIEvent() called with: listenerMethods = [" + listenerMethods + "], name = [" + name + "], data = [" + data + "]");
+            if (listener != null) {
+                ListenerUtils.runListenerMethod(
+                    listener, listenerMethods, name, data);
+            }
             ListenerUtils.runListenerMethod(
                 listener, listenerMethods, name, data);
         }
