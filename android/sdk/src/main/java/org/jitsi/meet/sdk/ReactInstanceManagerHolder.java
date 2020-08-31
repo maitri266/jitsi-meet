@@ -35,6 +35,7 @@ import com.facebook.soloader.SoLoader;
 import com.oney.WebRTCModule.RTCVideoViewManager;
 import com.oney.WebRTCModule.WebRTCModule;
 
+import org.jitsi.meet.sdk.log.JitsiMeetLogger;
 import org.webrtc.SoftwareVideoDecoderFactory;
 import org.webrtc.SoftwareVideoEncoderFactory;
 import org.webrtc.audio.AudioDeviceModule;
@@ -56,7 +57,7 @@ class ReactInstanceManagerHolder {
      * to create multiple root views off the same JavaScript bundle.
      */
     private static ReactInstanceManager reactInstanceManager;
-
+    private static final String TAG = "ReactInstanceManagerHol";
     private static List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> nativeModules
             = new ArrayList<>(Arrays.<NativeModule>asList(
@@ -119,7 +120,8 @@ class ReactInstanceManagerHolder {
             @Nullable Object data) {
         ReactInstanceManager reactInstanceManager
             = ReactInstanceManagerHolder.getReactInstanceManager();
-
+        //@cobrowsing log emitEvent
+        JitsiMeetLogger.d(TAG+" cobrowsing-emitEvent: "+eventName+" | "+data);
         if (reactInstanceManager != null) {
             ReactContext reactContext
                 = reactInstanceManager.getCurrentReactContext();

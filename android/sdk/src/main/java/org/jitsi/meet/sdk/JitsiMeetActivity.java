@@ -16,10 +16,12 @@
 
 package org.jitsi.meet.sdk;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -43,6 +45,11 @@ public class JitsiMeetActivity extends FragmentActivity
     private static final String ACTION_JITSI_MEET_CONFERENCE = "org.jitsi.meet.CONFERENCE";
     private static final String JITSI_MEET_CONFERENCE_OPTIONS = "JitsiMeetConferenceOptions";
 
+    protected static JitsiMeetView currentJitsiView = null;
+    protected static Context currentCallingContext;
+    protected static FragmentActivity thisActivity;
+    protected static boolean isHidden = false;
+
     // Helpers for starting the activity
     //
 
@@ -50,17 +57,109 @@ public class JitsiMeetActivity extends FragmentActivity
         Intent intent = new Intent(context, JitsiMeetActivity.class);
         intent.setAction(ACTION_JITSI_MEET_CONFERENCE);
         intent.putExtra(JITSI_MEET_CONFERENCE_OPTIONS, options);
-        context.startActivity(intent);
+        setCurrentCallingContext(context);
+        getCurrentCallingContext().startActivity(intent);
     }
 
     public static void launch(Context context, String url) {
         JitsiMeetConferenceOptions options
             = new JitsiMeetConferenceOptions.Builder().setRoom(url).build();
-        launch(context, options);
+        setCurrentCallingContext(context);
+        launch(getCurrentCallingContext(), options);
     }
 
+    public static void showPipWindow(){
+        //@cobrowsing log showPipWindow
+        JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: ");
+        if(isHidden){
+            //@cobrowsing log showPipWindow
+            JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: isHiddenCurrently "+thisActivity);
+            try {
+                getCurrentCallingContext().startActivity(new Intent(getCurrentCallingContext(), thisActivity.getClass())
+                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        getCurrentJitsiView().enterPictureInPicture();
+    }
+
+    public static void hidePipWindow(){
+        //@cobrowsing log hidePipWindow
+        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: ");
+        if(!isHidden){
+            //@cobrowsing log hidePipWindow
+            JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isShowingCurrently : "+thisActivity);
+            try {
+                thisActivity.startActivity(new Intent(thisActivity,getCurrentCallingContext().getClass())
+                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     // Overrides
     //
+
+
+    public static boolean isHidden() {
+        return isHidden;
+    }
+
+    public static void setIsHidden(boolean isHidden) {
+        JitsiMeetActivity.isHidden = isHidden;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart() called");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop() called");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause() called");
+        Log.d(TAG, "onResume: Current Jitsi View "+getJitsiView());
+        currentJitsiView = getJitsiView();
+        thisActivity = this;
+        isHidden = true;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart() called");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+        Log.d(TAG, "onResume: Current Jitsi View "+getJitsiView());
+        currentJitsiView = getJitsiView();
+        thisActivity = this;
+        isHidden = false;
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+    }
+
+    public static Context getCurrentCallingContext() {
+        return currentCallingContext;
+    }
+
+    public static void setCurrentCallingContext(Context currentCallingContext) {
+        JitsiMeetActivity.currentCallingContext = currentCallingContext;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +184,9 @@ public class JitsiMeetActivity extends FragmentActivity
         // current meeting, but when our view is detached from React the JS <-> Native bridge won't
         // be operational so the external API won't be able to notify the native side that the
         // conference terminated. Thus, try our best to clean up.
+        thisActivity = null;
+        setCurrentCallingContext(null);
+        isHidden = true;
         leave();
         if (AudioModeModule.useConnectionService()) {
             ConnectionService.abortConnections();
@@ -104,7 +206,7 @@ public class JitsiMeetActivity extends FragmentActivity
     // Helper methods
     //
 
-    protected JitsiMeetView getJitsiView() {
+    public JitsiMeetView getJitsiView() {
         JitsiMeetFragment fragment
             = (JitsiMeetFragment) getSupportFragmentManager().findFragmentById(R.id.jitsiFragment);
         return fragment.getJitsiView();
@@ -191,6 +293,8 @@ public class JitsiMeetActivity extends FragmentActivity
 
     @Override
     protected void onUserLeaveHint() {
+        //@cobrowsing log onUserLeaveHint
+        JitsiMeetLogger.d(TAG+" cobrowsing-onUserLeaveHint: PIP event ");
         getJitsiView().enterPictureInPicture();
     }
 
@@ -209,6 +313,14 @@ public class JitsiMeetActivity extends FragmentActivity
 
     // JitsiMeetViewListener
     //
+
+    public static JitsiMeetView getCurrentJitsiView() {
+        return currentJitsiView;
+    }
+
+    public static void setCurrentJitsiView(JitsiMeetView currentJitsiView) {
+        JitsiMeetActivity.currentJitsiView = currentJitsiView;
+    }
 
     @Override
     public void onConferenceJoined(Map<String, Object> data) {

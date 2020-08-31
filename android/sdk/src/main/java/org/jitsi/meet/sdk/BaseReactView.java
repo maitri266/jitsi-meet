@@ -190,7 +190,7 @@ public abstract class BaseReactView<ListenerT>
 
         if (listener != null) {
             //@COBROWSING log the event to be handled
-            JitsiMeetLogger.d("cobrowsing-onExternalAPIEvent","onExternalAPIEvent() called with: listenerMethods = [" + listenerMethods + "], name = [" + name + "], data = [" + data + "]");
+            JitsiMeetLogger.d("cobrowsing-onExternalAPIEvent : "+"onExternalAPIEvent() called with: listenerMethods = [" + listenerMethods + "], name = [" + name + "], data = [" + data + "]");
             if (listener != null) {
                 ListenerUtils.runListenerMethod(
                     listener, listenerMethods, name, data);

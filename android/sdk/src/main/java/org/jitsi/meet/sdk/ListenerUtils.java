@@ -138,7 +138,7 @@ public final class ListenerUtils {
         if (method != null) {
             try {
                 //@COBROWSING log the method invoked for the particular event
-                JitsiMeetLogger.d("cobrowsing-runListenerMethodOnUiThread","Method invoked for "+eventName+" | "+method.getName());
+                JitsiMeetLogger.d("cobrowsing-runListenerMethodOnUiThread : "+"Method invoked for "+eventName+" | "+method.getName());
                 method.invoke(listener, toHashMap(eventData));
                 method.invoke(listener, toHashMap(eventData));
             } catch (IllegalAccessException e) {

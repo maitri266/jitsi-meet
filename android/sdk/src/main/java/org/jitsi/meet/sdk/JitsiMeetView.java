@@ -202,12 +202,12 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
         //@COBROWSING log external events
         HashMap<String, Object> stringObjectHashMap = data.toHashMap();
         for(Map.Entry<String, Object> k: stringObjectHashMap.entrySet()){
-            JitsiMeetLogger.d("cobrowsing-onExternalAPIEvent",k.getKey()+"|"+k.getValue());
+            JitsiMeetLogger.d("cobrowsing-onExternalAPIEvent : "+k.getKey()+"|"+k.getValue());
         }
         JitsiMeetLogger.d("\nLISTENER_METHODS\n");
         //@COBROWSING log listener_methods
         for(Map.Entry<String, Method> k:LISTENER_METHODS.entrySet()){
-            JitsiMeetLogger.d("cobrowsing-onExternalAPIEvent",k.getKey()+"|"+k.getValue().getName());
+            JitsiMeetLogger.d("cobrowsing-onExternalAPIEvent : "+k.getKey()+"|"+k.getValue().getName());
         }
         onExternalAPIEvent(LISTENER_METHODS, name, data);
     }
