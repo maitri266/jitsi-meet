@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -89,7 +91,13 @@ public class JitsiMeetActivity extends FragmentActivity
                 e.printStackTrace();
             }
         }
-        getCurrentJitsiView().enterPictureInPicture();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getCurrentJitsiView().enterPictureInPicture();
+            }
+        },150);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -100,7 +108,7 @@ public class JitsiMeetActivity extends FragmentActivity
         JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: ");
         //@cobrowsing log hidePipWindow
         JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled "+thisActivity.isInPictureInPictureMode());
-        if(!isHidden){
+        if(true){
             //@cobrowsing log hidePipWindow
             JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isShowingCurrently : "+thisActivity);
             try {
@@ -137,12 +145,15 @@ public class JitsiMeetActivity extends FragmentActivity
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart() called");
+        isHidden = false;
     }
+
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop() called");
+        isHidden = true;
     }
 
     @Override
@@ -159,6 +170,7 @@ public class JitsiMeetActivity extends FragmentActivity
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart() called");
+        isHidden = false;
     }
 
     @Override
