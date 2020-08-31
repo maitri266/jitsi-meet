@@ -112,6 +112,8 @@ public class JitsiMeetActivity extends FragmentActivity
             //@cobrowsing log hidePipWindow
             JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isShowingCurrently : "+thisActivity);
             try {
+                getCurrentCallingContext().startActivity(new Intent(getCurrentCallingContext(), thisActivity.getClass())
+                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                 thisActivity.startActivity(new Intent(thisActivity,getCurrentCallingContext().getClass())
                     .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                 //@cobrowsing log hidePipWindow
