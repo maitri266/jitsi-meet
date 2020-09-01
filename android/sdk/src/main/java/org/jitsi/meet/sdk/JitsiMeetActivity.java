@@ -101,7 +101,8 @@ public class JitsiMeetActivity extends FragmentActivity
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void hidePipWindow(){
+    public static void hidePipWindow(Context context){
+        Log.d(TAG, "hidePipWindow() called with: context = [" + context + "]");
         if(thisActivity==null)
             return;
         //@cobrowsing log hidePipWindow
@@ -112,10 +113,10 @@ public class JitsiMeetActivity extends FragmentActivity
             //@cobrowsing log hidePipWindow
             JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isShowingCurrently : "+thisActivity);
             try {
-                getCurrentCallingContext().startActivity(new Intent(getCurrentCallingContext(), thisActivity.getClass())
+                context.startActivity(new Intent(context, thisActivity.getClass())
                     .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-                thisActivity.startActivity(new Intent(thisActivity,getCurrentCallingContext().getClass())
-                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+
+                thisActivity.startActivity(new Intent(thisActivity,context.getClass()));
                 //@cobrowsing log hidePipWindow
                 JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled try "+thisActivity.isInPictureInPictureMode());
             } catch (Exception e) {
