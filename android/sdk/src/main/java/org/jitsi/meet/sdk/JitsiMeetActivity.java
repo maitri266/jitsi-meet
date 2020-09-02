@@ -124,10 +124,41 @@ public class JitsiMeetActivity extends FragmentActivity
             }
         }
     }
-    // Overrides
-    //
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void launchJitsiMeetView(Context context){
+        Log.d(TAG, "launchJitsiMeetView() called with: context = [" + context + "]");
+        if(thisActivity==null)
+            return;
+        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: ");
+        //@cobrowsing log hidePipWindow
+        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled "+thisActivity.isInPictureInPictureMode());
+        if(true){
+            //@cobrowsing log hidePipWindow
+            JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isShowingCurrently : "+thisActivity);
+            try {
+                context.startActivity(new Intent(context, thisActivity.getClass())
+                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                //@cobrowsing log hidePipWindow
+                JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled try "+thisActivity.isInPictureInPictureMode());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static boolean isPiPEnabled(){
+        JitsiMeetLogger.d(TAG + " cobrowsing-isPiPEnabled: return Value thisActivity" + thisActivity);
+        if(thisActivity==null){
+            return false;
+        }
+        else {
+            JitsiMeetLogger.d(TAG + " cobrowsing-isPiPEnabled: return Value " + thisActivity.isInPictureInPictureMode());
+            return thisActivity.isInPictureInPictureMode();
+        }
+    }
     public static FragmentActivity getThisActivity() {
         return thisActivity;
     }
@@ -135,6 +166,7 @@ public class JitsiMeetActivity extends FragmentActivity
     public static void setThisActivity(FragmentActivity thisActivity) {
         JitsiMeetActivity.thisActivity = thisActivity;
     }
+
 
     public static boolean isHidden() {
         return isHidden;
