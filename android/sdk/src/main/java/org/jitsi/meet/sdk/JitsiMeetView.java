@@ -90,7 +90,10 @@ public class JitsiMeetView extends BaseReactView<JitsiMeetViewListener>
                 throw new RuntimeException("Unsupported type: " + valueType);
             }
         }
-
+        for(String key: result.keySet()){
+            //@cobrowsing log mergeProps
+            JitsiMeetLogger.d("cobrowsing-mergeProps: "+"key: "+key+" | Value: "+result.get(key).toString());
+        }
         return result;
     }
 

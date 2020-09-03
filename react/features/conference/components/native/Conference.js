@@ -122,7 +122,7 @@ class Conference extends AbstractConference<Props, *> {
      * @returns {void}
      */
     componentDidMount() {
-        BackButtonRegistry.addListener(this._onHardwareBackPress);
+        // BackButtonRegistry.addListener(this._onHardwareBackPress);
     }
 
     /**
@@ -135,7 +135,7 @@ class Conference extends AbstractConference<Props, *> {
      */
     componentWillUnmount() {
         // Tear handling any hardware button presses for back navigation down.
-        BackButtonRegistry.removeListener(this._onHardwareBackPress);
+        // BackButtonRegistry.removeListener(this._onHardwareBackPress);
     }
 
     /**
@@ -180,17 +180,17 @@ class Conference extends AbstractConference<Props, *> {
     _onHardwareBackPress() {
         let p;
 
-        if (this.props._pictureInPictureEnabled) {
-            const { PictureInPicture } = NativeModules;
+        // if (this.props._pictureInPictureEnabled) {
+        //     const { PictureInPicture } = NativeModules;
 
-            p = PictureInPicture.enterPictureInPicture();
-        } else {
-            p = Promise.reject(new Error('PiP not enabled'));
-        }
+        //     p = PictureInPicture.enterPictureInPicture();
+        // } else {
+        //     p = Promise.reject(new Error('PiP not enabled'));
+        // }
 
-        p.catch(() => {
-            this.props.dispatch(appNavigate(undefined));
-        });
+        // p.catch(() => {
+        //     this.props.dispatch(appNavigate(undefined));
+        // });
 
         return true;
     }

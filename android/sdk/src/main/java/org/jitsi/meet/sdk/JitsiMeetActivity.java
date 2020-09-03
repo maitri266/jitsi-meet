@@ -344,7 +344,10 @@ public class JitsiMeetActivity extends FragmentActivity
 
     @Override
     public void onBackPressed() {
-        JitsiMeetActivityDelegate.onBackPressed();
+//        JitsiMeetActivityDelegate.onBackPressed();
+        Intent intent = new Intent(thisActivity, getCurrentCallingContext().getClass());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
@@ -365,7 +368,8 @@ public class JitsiMeetActivity extends FragmentActivity
     protected void onUserLeaveHint() {
         //@cobrowsing log onUserLeaveHint
         JitsiMeetLogger.d(TAG+" cobrowsing-onUserLeaveHint: PIP event ");
-        getJitsiView().enterPictureInPicture();
+        // getJitsiView().enterPictureInPicture();
+//        onBackPressed();
     }
 
     // JitsiMeetActivityInterface
