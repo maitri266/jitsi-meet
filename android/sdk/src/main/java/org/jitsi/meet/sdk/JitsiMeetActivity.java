@@ -51,14 +51,20 @@ public class JitsiMeetActivity extends FragmentActivity
 
 //    protected static JitsiMeetView currentJitsiView = null;
     protected static Context currentCallingContext;
+    private static int LAUNCH_FLAG = Intent.FLAG_ACTIVITY_NEW_TASK;
 //    protected static FragmentActivity thisActivity;
 //    protected static boolean isHidden = false;
 
     // Helpers for starting the activity
     //
 
+    public static void setLaunchFlag(int launchFlag) {
+        LAUNCH_FLAG = launchFlag;
+    }
+
     public static void launch(Context context, JitsiMeetConferenceOptions options) {
         Intent intent = new Intent(context, JitsiMeetActivity.class);
+        intent.addFlags(LAUNCH_FLAG);
         intent.setAction(ACTION_JITSI_MEET_CONFERENCE);
         intent.putExtra(JITSI_MEET_CONFERENCE_OPTIONS, options);
         setCurrentCallingContext(context);
@@ -70,6 +76,18 @@ public class JitsiMeetActivity extends FragmentActivity
             = new JitsiMeetConferenceOptions.Builder().setRoom(url).build();
         setCurrentCallingContext(context);
         launch(getCurrentCallingContext(), options);
+    }
+
+    public static void launchCurrentJitsiCall(Context context){
+        //@cobrowsing log launchCurrentJitsiCall
+        JitsiMeetLogger.d(TAG+" cobrowsing-launchCurrentJitsiCall: context "+context);
+        try{
+            Intent intent = new Intent(context,JitsiMeetActivity.class);
+            intent.addFlags(LAUNCH_FLAG );
+            context.startActivity(intent);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 //    @RequiresApi(api = Build.VERSION_CODES.N)
@@ -348,7 +366,7 @@ public class JitsiMeetActivity extends FragmentActivity
     public void onBackPressed() {
 //        JitsiMeetActivityDelegate.onBackPressed();
         Intent intent = new Intent(JitsiMeetActivity.this, getCurrentCallingContext().getClass());
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(LAUNCH_FLAG);
         startActivity(intent);
     }
 
