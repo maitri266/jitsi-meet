@@ -49,10 +49,10 @@ public class JitsiMeetActivity extends FragmentActivity
     private static final String ACTION_JITSI_MEET_CONFERENCE = "org.jitsi.meet.CONFERENCE";
     private static final String JITSI_MEET_CONFERENCE_OPTIONS = "JitsiMeetConferenceOptions";
 
-    protected static JitsiMeetView currentJitsiView = null;
+//    protected static JitsiMeetView currentJitsiView = null;
     protected static Context currentCallingContext;
-    protected static FragmentActivity thisActivity;
-    protected static boolean isHidden = false;
+//    protected static FragmentActivity thisActivity;
+//    protected static boolean isHidden = false;
 
     // Helpers for starting the activity
     //
@@ -72,115 +72,115 @@ public class JitsiMeetActivity extends FragmentActivity
         launch(getCurrentCallingContext(), options);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void showPipWindow(){
-        if(thisActivity==null)
-            return;
-        //@cobrowsing log showPipWindow
-        JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: ");
-        //@cobrowsing log showPipWindow
-        JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: isPiPEnabled "+ thisActivity.isInPictureInPictureMode());
-        if(isHidden){
-            //@cobrowsing log showPipWindow
-            JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: isHiddenCurrently "+thisActivity);
-            try {
-                getCurrentCallingContext().startActivity(new Intent(getCurrentCallingContext(), thisActivity.getClass())
-                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-                JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: isPiPEnabled try "+ thisActivity.isInPictureInPictureMode());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getCurrentJitsiView().enterPictureInPicture();
-            }
-        },150);
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    public static void showPipWindow(){
+//        if(thisActivity==null)
+//            return;
+//        //@cobrowsing log showPipWindow
+//        JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: ");
+//        //@cobrowsing log showPipWindow
+//        JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: isPiPEnabled "+ thisActivity.isInPictureInPictureMode());
+//        if(isHidden){
+//            //@cobrowsing log showPipWindow
+//            JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: isHiddenCurrently "+thisActivity);
+//            try {
+//                getCurrentCallingContext().startActivity(new Intent(getCurrentCallingContext(), thisActivity.getClass())
+//                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+//                JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: isPiPEnabled try "+ thisActivity.isInPictureInPictureMode());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                getCurrentJitsiView().enterPictureInPicture();
+//            }
+//        },150);
+//
+//    }
 
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    public static void hidePipWindow(Context context){
+//        Log.d(TAG, "hidePipWindow() called with: context = [" + context + "]");
+//        if(thisActivity==null)
+//            return;
+//        //@cobrowsing log hidePipWindow
+//        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: ");
+//        //@cobrowsing log hidePipWindow
+//        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled "+thisActivity.isInPictureInPictureMode());
+//        if(true){
+//            //@cobrowsing log hidePipWindow
+//            JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isShowingCurrently : "+thisActivity);
+//            try {
+//                context.startActivity(new Intent(context, thisActivity.getClass())
+//                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+//
+//                thisActivity.startActivity(new Intent(thisActivity,context.getClass()));
+//                //@cobrowsing log hidePipWindow
+//                JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled try "+thisActivity.isInPictureInPictureMode());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void hidePipWindow(Context context){
-        Log.d(TAG, "hidePipWindow() called with: context = [" + context + "]");
-        if(thisActivity==null)
-            return;
-        //@cobrowsing log hidePipWindow
-        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: ");
-        //@cobrowsing log hidePipWindow
-        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled "+thisActivity.isInPictureInPictureMode());
-        if(true){
-            //@cobrowsing log hidePipWindow
-            JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isShowingCurrently : "+thisActivity);
-            try {
-                context.startActivity(new Intent(context, thisActivity.getClass())
-                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-
-                thisActivity.startActivity(new Intent(thisActivity,context.getClass()));
-                //@cobrowsing log hidePipWindow
-                JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled try "+thisActivity.isInPictureInPictureMode());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void launchJitsiMeetView(Context context){
-        Log.d(TAG, "launchJitsiMeetView() called with: context = [" + context + "]");
-        if(thisActivity==null)
-            return;
-        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: ");
-        //@cobrowsing log hidePipWindow
-        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled "+thisActivity.isInPictureInPictureMode());
-        if(true){
-            //@cobrowsing log hidePipWindow
-            JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isShowingCurrently : "+thisActivity);
-            try {
-                context.startActivity(new Intent(context, thisActivity.getClass())
-                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-                //@cobrowsing log hidePipWindow
-                JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled try "+thisActivity.isInPictureInPictureMode());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static boolean isPiPEnabled(){
-        JitsiMeetLogger.d(TAG + " cobrowsing-isPiPEnabled: return Value thisActivity" + thisActivity);
-        if(thisActivity==null){
-            return false;
-        }
-        else {
-            JitsiMeetLogger.d(TAG + " cobrowsing-isPiPEnabled: return Value " + thisActivity.isInPictureInPictureMode());
-            return thisActivity.isInPictureInPictureMode();
-        }
-    }
-    public static FragmentActivity getThisActivity() {
-        return thisActivity;
-    }
-
-    public static void setThisActivity(FragmentActivity thisActivity) {
-        JitsiMeetActivity.thisActivity = thisActivity;
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    public static void launchJitsiMeetView(Context context){
+//        Log.d(TAG, "launchJitsiMeetView() called with: context = [" + context + "]");
+//        if(thisActivity==null)
+//            return;
+//        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: ");
+//        //@cobrowsing log hidePipWindow
+//        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled "+thisActivity.isInPictureInPictureMode());
+//        if(true){
+//            //@cobrowsing log hidePipWindow
+//            JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isShowingCurrently : "+thisActivity);
+//            try {
+//                context.startActivity(new Intent(context, thisActivity.getClass())
+//                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+//                //@cobrowsing log hidePipWindow
+//                JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled try "+thisActivity.isInPictureInPictureMode());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
 
-    public static boolean isHidden() {
-        return isHidden;
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    public static boolean isPiPEnabled(){
+//        JitsiMeetLogger.d(TAG + " cobrowsing-isPiPEnabled: return Value thisActivity" + thisActivity);
+//        if(thisActivity==null){
+//            return false;
+//        }
+//        else {
+//            JitsiMeetLogger.d(TAG + " cobrowsing-isPiPEnabled: return Value " + thisActivity.isInPictureInPictureMode());
+//            return thisActivity.isInPictureInPictureMode();
+//        }
+//    }
+//    public static FragmentActivity getThisActivity() {
+//        return thisActivity;
+//    }
 
-    public static void setIsHidden(boolean isHidden) {
-        JitsiMeetActivity.isHidden = isHidden;
-    }
+//    public static void setThisActivity(FragmentActivity thisActivity) {
+//        JitsiMeetActivity.thisActivity = thisActivity;
+//    }
+
+
+//    public static boolean isHidden() {
+//        return isHidden;
+//    }
+
+//    public static void setIsHidden(boolean isHidden) {
+//        JitsiMeetActivity.isHidden = isHidden;
+//    }
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart() called");
-        isHidden = false;
+//        isHidden = false;
     }
 
 
@@ -188,7 +188,7 @@ public class JitsiMeetActivity extends FragmentActivity
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop() called");
-        isHidden = true;
+//        isHidden = true;
     }
 
     @Override
@@ -196,16 +196,16 @@ public class JitsiMeetActivity extends FragmentActivity
         super.onPause();
         Log.d(TAG, "onPause() called");
         Log.d(TAG, "onResume: Current Jitsi View "+getJitsiView());
-        currentJitsiView = getJitsiView();
-        thisActivity = this;
-        isHidden = true;
+//        currentJitsiView = getJitsiView();
+//        thisActivity = this;
+//        isHidden = true;
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart() called");
-        isHidden = false;
+//        isHidden = false;
     }
 
     @Override
@@ -213,9 +213,9 @@ public class JitsiMeetActivity extends FragmentActivity
         super.onResume();
         Log.d(TAG, "onResume() called");
         Log.d(TAG, "onResume: Current Jitsi View "+getJitsiView());
-        currentJitsiView = getJitsiView();
-        thisActivity = this;
-        isHidden = false;
+//        currentJitsiView = getJitsiView();
+//        thisActivity = this;
+//        isHidden = false;
     }
 
     @Override
@@ -254,9 +254,11 @@ public class JitsiMeetActivity extends FragmentActivity
         // current meeting, but when our view is detached from React the JS <-> Native bridge won't
         // be operational so the external API won't be able to notify the native side that the
         // conference terminated. Thus, try our best to clean up.
-        thisActivity = null;
+        //@cobrowsing log onDestroy
+        JitsiMeetLogger.d(TAG+" cobrowsing-onDestroy: checkForWhoFirst");
+//        thisActivity = null;
         setCurrentCallingContext(null);
-        isHidden = true;
+//        isHidden = true;
         leave();
         if (AudioModeModule.useConnectionService()) {
             ConnectionService.abortConnections();
@@ -345,7 +347,7 @@ public class JitsiMeetActivity extends FragmentActivity
     @Override
     public void onBackPressed() {
 //        JitsiMeetActivityDelegate.onBackPressed();
-        Intent intent = new Intent(thisActivity, getCurrentCallingContext().getClass());
+        Intent intent = new Intent(JitsiMeetActivity.this, getCurrentCallingContext().getClass());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
@@ -369,7 +371,6 @@ public class JitsiMeetActivity extends FragmentActivity
         //@cobrowsing log onUserLeaveHint
         JitsiMeetLogger.d(TAG+" cobrowsing-onUserLeaveHint: PIP event ");
         // getJitsiView().enterPictureInPicture();
-//        onBackPressed();
     }
 
     // JitsiMeetActivityInterface
@@ -388,13 +389,13 @@ public class JitsiMeetActivity extends FragmentActivity
     // JitsiMeetViewListener
     //
 
-    public static JitsiMeetView getCurrentJitsiView() {
-        return currentJitsiView;
-    }
+//    public static JitsiMeetView getCurrentJitsiView() {
+//        return currentJitsiView;
+//    }
 
-    public static void setCurrentJitsiView(JitsiMeetView currentJitsiView) {
-        JitsiMeetActivity.currentJitsiView = currentJitsiView;
-    }
+//    public static void setCurrentJitsiView(JitsiMeetView currentJitsiView) {
+//        JitsiMeetActivity.currentJitsiView = currentJitsiView;
+//    }
 
     @Override
     public void onConferenceJoined(Map<String, Object> data) {
@@ -405,7 +406,10 @@ public class JitsiMeetActivity extends FragmentActivity
 
     @Override
     public void onConferenceTerminated(Map<String, Object> data) {
-        JitsiMeetLogger.i("Conference terminated: " + data);
+        JitsiMeetLogger.i("Conference terminated: checkForWhoFirst " + data);
+//        thisActivity = null;
+        setCurrentCallingContext(null);
+//        isHidden = true;
         finish();
     }
 
