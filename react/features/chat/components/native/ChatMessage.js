@@ -83,7 +83,7 @@ class ChatMessage extends AbstractChatMessage<Props> {
                             </Linkify>
                             { this._renderPrivateNotice() }
                         </View>
-                        { this._renderPrivateReplyButton() }
+                        {/* { this._renderPrivateReplyButton() } */}
                     </View>
                     { this._renderTimestamp() }
                 </View>

@@ -106,7 +106,7 @@ class RemoteVideoMenu extends Component<Props> {
         }
 
         buttons.push(<PinButton { ...buttonProps } />);
-        buttons.push(<PrivateMessageButton { ...buttonProps } />);
+        // buttons.push(<PrivateMessageButton { ...buttonProps } />);
 
         return (
             <BottomSheet onCancel = { this._onCancel }>

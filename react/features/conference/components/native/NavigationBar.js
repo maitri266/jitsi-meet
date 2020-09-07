@@ -97,7 +97,7 @@ class NavigationBar extends Component<Props> {
 function _mapStateToProps(state) {
     return {
         _conferenceTimerEnabled: getFeatureFlag(state, CONFERENCE_TIMER_ENABLED, true),
-        _meetingName: getConferenceName(state),
+        _meetingName: "Click on back button to go back",
         _meetingNameEnabled: getFeatureFlag(state, MEETING_NAME_ENABLED, true),
         _visible: isToolboxVisible(state)
     };

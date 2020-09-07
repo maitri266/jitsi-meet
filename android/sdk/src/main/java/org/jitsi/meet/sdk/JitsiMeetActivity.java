@@ -52,6 +52,26 @@ public class JitsiMeetActivity extends FragmentActivity
 //    protected static JitsiMeetView currentJitsiView = null;
     protected static Context currentCallingContext;
     private static int LAUNCH_FLAG = Intent.FLAG_ACTIVITY_NEW_TASK;
+
+    public static int getLaunchFlagApp() {
+        return LAUNCH_FLAG_APP;
+    }
+
+    public static void setLaunchFlagApp(int launchFlagApp) {
+        LAUNCH_FLAG_APP = launchFlagApp;
+    }
+
+    private static int LAUNCH_FLAG_APP = Intent.FLAG_ACTIVITY_NEW_TASK;
+    public static boolean isSessionActive=false;
+//    public static int counter=0;
+
+    public static boolean isIsSessionActive() {
+        return isSessionActive;
+    }
+
+    public static void setIsSessionActive(boolean isSessionActive) {
+        JitsiMeetActivity.isSessionActive = isSessionActive;
+    }
 //    protected static FragmentActivity thisActivity;
 //    protected static boolean isHidden = false;
 
@@ -63,6 +83,9 @@ public class JitsiMeetActivity extends FragmentActivity
     }
 
     public static void launch(Context context, JitsiMeetConferenceOptions options) {
+        if(!isIsSessionActive()){
+            return;
+        }
         Intent intent = new Intent(context, JitsiMeetActivity.class);
         intent.addFlags(LAUNCH_FLAG);
         intent.setAction(ACTION_JITSI_MEET_CONFERENCE);
@@ -90,109 +113,6 @@ public class JitsiMeetActivity extends FragmentActivity
         }
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    public static void showPipWindow(){
-//        if(thisActivity==null)
-//            return;
-//        //@cobrowsing log showPipWindow
-//        JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: ");
-//        //@cobrowsing log showPipWindow
-//        JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: isPiPEnabled "+ thisActivity.isInPictureInPictureMode());
-//        if(isHidden){
-//            //@cobrowsing log showPipWindow
-//            JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: isHiddenCurrently "+thisActivity);
-//            try {
-//                getCurrentCallingContext().startActivity(new Intent(getCurrentCallingContext(), thisActivity.getClass())
-//                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-//                JitsiMeetLogger.d(TAG+" cobrowsing-showPipWindow: isPiPEnabled try "+ thisActivity.isInPictureInPictureMode());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                getCurrentJitsiView().enterPictureInPicture();
-//            }
-//        },150);
-//
-//    }
-
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    public static void hidePipWindow(Context context){
-//        Log.d(TAG, "hidePipWindow() called with: context = [" + context + "]");
-//        if(thisActivity==null)
-//            return;
-//        //@cobrowsing log hidePipWindow
-//        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: ");
-//        //@cobrowsing log hidePipWindow
-//        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled "+thisActivity.isInPictureInPictureMode());
-//        if(true){
-//            //@cobrowsing log hidePipWindow
-//            JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isShowingCurrently : "+thisActivity);
-//            try {
-//                context.startActivity(new Intent(context, thisActivity.getClass())
-//                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-//
-//                thisActivity.startActivity(new Intent(thisActivity,context.getClass()));
-//                //@cobrowsing log hidePipWindow
-//                JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled try "+thisActivity.isInPictureInPictureMode());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    public static void launchJitsiMeetView(Context context){
-//        Log.d(TAG, "launchJitsiMeetView() called with: context = [" + context + "]");
-//        if(thisActivity==null)
-//            return;
-//        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: ");
-//        //@cobrowsing log hidePipWindow
-//        JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled "+thisActivity.isInPictureInPictureMode());
-//        if(true){
-//            //@cobrowsing log hidePipWindow
-//            JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isShowingCurrently : "+thisActivity);
-//            try {
-//                context.startActivity(new Intent(context, thisActivity.getClass())
-//                    .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
-//                //@cobrowsing log hidePipWindow
-//                JitsiMeetLogger.d(TAG+" cobrowsing-hidePipWindow: isPiPEnabled try "+thisActivity.isInPictureInPictureMode());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
-
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    public static boolean isPiPEnabled(){
-//        JitsiMeetLogger.d(TAG + " cobrowsing-isPiPEnabled: return Value thisActivity" + thisActivity);
-//        if(thisActivity==null){
-//            return false;
-//        }
-//        else {
-//            JitsiMeetLogger.d(TAG + " cobrowsing-isPiPEnabled: return Value " + thisActivity.isInPictureInPictureMode());
-//            return thisActivity.isInPictureInPictureMode();
-//        }
-//    }
-//    public static FragmentActivity getThisActivity() {
-//        return thisActivity;
-//    }
-
-//    public static void setThisActivity(FragmentActivity thisActivity) {
-//        JitsiMeetActivity.thisActivity = thisActivity;
-//    }
-
-
-//    public static boolean isHidden() {
-//        return isHidden;
-//    }
-
-//    public static void setIsHidden(boolean isHidden) {
-//        JitsiMeetActivity.isHidden = isHidden;
-//    }
 
     @Override
     protected void onStart() {
@@ -231,6 +151,9 @@ public class JitsiMeetActivity extends FragmentActivity
         super.onResume();
         Log.d(TAG, "onResume() called");
         Log.d(TAG, "onResume: Current Jitsi View "+getJitsiView());
+        if(!isIsSessionActive()){
+            this.finish();
+        }
 //        currentJitsiView = getJitsiView();
 //        thisActivity = this;
 //        isHidden = false;
@@ -288,8 +211,9 @@ public class JitsiMeetActivity extends FragmentActivity
 
     @Override
     public void finish() {
+        //@cobrowsing log finish
+        JitsiMeetLogger.d(TAG+" cobrowsing-finish: ");
         leave();
-
         super.finish();
     }
 
@@ -365,8 +289,12 @@ public class JitsiMeetActivity extends FragmentActivity
     @Override
     public void onBackPressed() {
 //        JitsiMeetActivityDelegate.onBackPressed();
+        launchCallingActivity();
+    }
+
+    private void launchCallingActivity() {
         Intent intent = new Intent(JitsiMeetActivity.this, getCurrentCallingContext().getClass());
-        intent.addFlags(LAUNCH_FLAG);
+        intent.addFlags(LAUNCH_FLAG_APP);
         startActivity(intent);
     }
 
@@ -426,9 +354,11 @@ public class JitsiMeetActivity extends FragmentActivity
     public void onConferenceTerminated(Map<String, Object> data) {
         JitsiMeetLogger.i("Conference terminated: checkForWhoFirst " + data);
 //        thisActivity = null;
-        setCurrentCallingContext(null);
 //        isHidden = true;
-        finish();
+        
+            launchCallingActivity();
+        
+        this.finish();
     }
 
     @Override
