@@ -109,3 +109,11 @@ fi
 
 # Done!
 echo "Finished! Don't forget to push the tag and the Maven repo artifacts."
+
+cp -a /tmp/repo ~/Documents/jitsi-build
+cd ~/Documents/jitsi-build
+git add .
+git commit -m "latest build"
+git push
+
+echo "Push successful"

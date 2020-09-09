@@ -90,29 +90,33 @@ public class PictureInPictureModule extends ReactContextBaseJavaModule {
         }
 
         Activity currentActivity = getCurrentActivity();
-
         if (currentActivity == null) {
             throw new IllegalStateException("No current Activity!");
         }
-
-        JitsiMeetLogger.i(TAG + " Entering Picture-in-Picture");
-        Rational r = new Rational(2,1);
-        PictureInPictureParams.Builder builder
-            = new PictureInPictureParams.Builder()
-                .setAspectRatio(currentRatio==null?r:currentRatio);
-
-        // https://developer.android.com/reference/android/app/Activity.html#enterPictureInPictureMode(android.app.PictureInPictureParams)
-        //
-        // The system may disallow entering picture-in-picture in various cases,
-        // including when the activity is not visible, if the screen is locked
-        // or if the user has an activity pinned.
-//        if(showWindow)
-        if (!currentActivity.enterPictureInPictureMode(builder.build())) {
-            throw new RuntimeException("Failed to enter Picture-in-Picture");
+        try{
+            JitsiMeetLogger.i(TAG + " Going Back");
+            currentActivity.onBackPressed();
+        }catch(Exception e){
+            e.printStackTrace();
         }
-//        else
-//            currentActivity.startActivity(new Intent(currentActivity, getClass())
-//                .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+//
+//        Rational r = new Rational(2,1);
+//        PictureInPictureParams.Builder builder
+//            = new PictureInPictureParams.Builder()
+//                .setAspectRatio(currentRatio==null?r:currentRatio);
+//
+//        // https://developer.android.com/reference/android/app/Activity.html#enterPictureInPictureMode(android.app.PictureInPictureParams)
+//        //
+//        // The system may disallow entering picture-in-picture in various cases,
+//        // including when the activity is not visible, if the screen is locked
+//        // or if the user has an activity pinned.
+////        if(showWindow)
+//        if (!currentActivity.enterPictureInPictureMode(builder.build())) {
+//            throw new RuntimeException("Failed to enter Picture-in-Picture");
+//        }
+////        else
+////            currentActivity.startActivity(new Intent(currentActivity, getClass())
+////                .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
     }
 
     /**

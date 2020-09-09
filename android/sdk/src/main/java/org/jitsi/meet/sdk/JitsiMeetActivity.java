@@ -72,7 +72,15 @@ public class JitsiMeetActivity extends FragmentActivity
     public static void setIsSessionActive(boolean isSessionActive) {
         JitsiMeetActivity.isSessionActive = isSessionActive;
     }
-//    protected static FragmentActivity thisActivity;
+    protected static FragmentActivity thisActivity;
+
+    public static FragmentActivity getThisActivity() {
+        return thisActivity;
+    }
+
+    public static void setThisActivity(FragmentActivity thisActivity) {
+        JitsiMeetActivity.thisActivity = thisActivity;
+    }
 //    protected static boolean isHidden = false;
 
     // Helpers for starting the activity
@@ -135,7 +143,7 @@ public class JitsiMeetActivity extends FragmentActivity
         Log.d(TAG, "onPause() called");
         Log.d(TAG, "onResume: Current Jitsi View "+getJitsiView());
 //        currentJitsiView = getJitsiView();
-//        thisActivity = this;
+        thisActivity = this;
 //        isHidden = true;
     }
 
@@ -155,7 +163,7 @@ public class JitsiMeetActivity extends FragmentActivity
             this.finish();
         }
 //        currentJitsiView = getJitsiView();
-//        thisActivity = this;
+        thisActivity = this;
 //        isHidden = false;
     }
 
@@ -197,7 +205,7 @@ public class JitsiMeetActivity extends FragmentActivity
         // conference terminated. Thus, try our best to clean up.
         //@cobrowsing log onDestroy
         JitsiMeetLogger.d(TAG+" cobrowsing-onDestroy: checkForWhoFirst");
-//        thisActivity = null;
+        thisActivity = null;
         setCurrentCallingContext(null);
 //        isHidden = true;
         leave();
@@ -214,6 +222,12 @@ public class JitsiMeetActivity extends FragmentActivity
         //@cobrowsing log finish
         JitsiMeetLogger.d(TAG+" cobrowsing-finish: ");
         leave();
+        if (AudioModeModule.useConnectionService()) {
+            //@cobrowsing log finish
+            JitsiMeetLogger.d(TAG+" cobrowsing-finish: useConnectionService");
+            ConnectionService.abortConnections();
+        }
+        JitsiMeetOngoingConferenceService.abort(this);
         super.finish();
     }
 
@@ -316,7 +330,7 @@ public class JitsiMeetActivity extends FragmentActivity
     protected void onUserLeaveHint() {
         //@cobrowsing log onUserLeaveHint
         JitsiMeetLogger.d(TAG+" cobrowsing-onUserLeaveHint: PIP event ");
-        // getJitsiView().enterPictureInPicture();
+//         getJitsiView().enterPictureInPicture();
     }
 
     // JitsiMeetActivityInterface
@@ -353,11 +367,11 @@ public class JitsiMeetActivity extends FragmentActivity
     @Override
     public void onConferenceTerminated(Map<String, Object> data) {
         JitsiMeetLogger.i("Conference terminated: checkForWhoFirst " + data);
-//        thisActivity = null;
+        thisActivity = null;
 //        isHidden = true;
-        
+
             launchCallingActivity();
-        
+
         this.finish();
     }
 
