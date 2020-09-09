@@ -85,6 +85,8 @@ public class PictureInPictureModule extends ReactContextBaseJavaModule {
      */
     @TargetApi(Build.VERSION_CODES.O)
     public void enterPictureInPicture() {
+        //@cobrowsing log enterPictureInPicture
+        JitsiMeetLogger.d(TAG+" cobrowsing-enterPictureInPicture: ");
         if (!isSupported) {
             throw new IllegalStateException("Picture-in-Picture not supported");
         }

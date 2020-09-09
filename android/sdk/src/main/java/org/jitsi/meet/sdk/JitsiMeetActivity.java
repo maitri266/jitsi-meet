@@ -95,7 +95,6 @@ public class JitsiMeetActivity extends FragmentActivity
             return;
         }
         Intent intent = new Intent(context, JitsiMeetActivity.class);
-        intent.addFlags(LAUNCH_FLAG);
         intent.setAction(ACTION_JITSI_MEET_CONFERENCE);
         intent.putExtra(JITSI_MEET_CONFERENCE_OPTIONS, options);
         setCurrentCallingContext(context);
@@ -114,7 +113,6 @@ public class JitsiMeetActivity extends FragmentActivity
         JitsiMeetLogger.d(TAG+" cobrowsing-launchCurrentJitsiCall: context "+context);
         try{
             Intent intent = new Intent(context,JitsiMeetActivity.class);
-            intent.addFlags(LAUNCH_FLAG );
             context.startActivity(intent);
         }catch(Exception e){
             e.printStackTrace();
@@ -300,11 +298,11 @@ public class JitsiMeetActivity extends FragmentActivity
         JitsiMeetActivityDelegate.onActivityResult(this, requestCode, resultCode, data);
     }
 
-    @Override
-    public void onBackPressed() {
+   @Override
+   public void onBackPressed() {
 //        JitsiMeetActivityDelegate.onBackPressed();
-        launchCallingActivity();
-    }
+       launchCallingActivity();
+   }
 
     private void launchCallingActivity() {
         Intent intent = new Intent(JitsiMeetActivity.this, getCurrentCallingContext().getClass());

@@ -4,12 +4,10 @@ import { NativeModules, Platform } from 'react-native';
 
 import { PIP_ENABLED, getFeatureFlag } from '../../../base/flags';
 import { translate } from '../../../base/i18n';
-import { IconMenuDown } from '../../../base/icons';
-import { IconArrowBack } from '../../../base/icons';
+import { IconMenuDown, IconArrowBackWithText } from '../../../base/icons';
 import { connect } from '../../../base/redux';
 import { AbstractButton, type AbstractButtonProps } from '../../../base/toolbox/components';
 import { enterPictureInPicture } from '../actions';
-import BackButtonRegistry from '../../back-button/BackButtonRegistry'
 
 type Props = AbstractButtonProps & {
 
@@ -29,7 +27,7 @@ type Props = AbstractButtonProps & {
  */
 class PictureInPictureButton extends AbstractButton<Props, *> {
     accessibilityLabel = 'toolbar.accessibilityLabel.pip';
-    icon = IconArrowBack;
+    icon = IconArrowBackWithText;
     label = 'toolbar.pip';
 
     /**
@@ -39,8 +37,7 @@ class PictureInPictureButton extends AbstractButton<Props, *> {
      * @returns {void}
      */
     _handleClick() {
-        BackButtonRegistry.onHardwareBackPress;
-        // this.props.dispatch(enterPictureInPicture());
+        this.props.dispatch(enterPictureInPicture());
     }
 
     /**
